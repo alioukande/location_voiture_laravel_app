@@ -81,12 +81,8 @@ class VoitureController extends Controller
         return redirect()->route('voitures.index');
 
 
-        dd(
-    config('database.connections.mysql.database'),
-    env('DB_DATABASE')
-);
-
-        //
+        
+        
     }
 
     /**

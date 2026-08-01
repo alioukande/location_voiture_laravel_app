@@ -11,13 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('reservations', 'statut')) {
-        $table->enum('statut', [
-            'en attente',
-            'confirmee',
-            'annulee',
-            'terminee'
-        ])->default('en attente')->after('end_time');
+       if (!Schema::hasColumn('reservations', 'statut')) {
+
+        Schema::table('reservations', function (Blueprint $table) {
+
+            $table->enum('statut', [
+                'en attente',
+                'confirmee',
+                'annulee',
+                'terminee'
+            ])->default('en attente')->after('end_time');
+
+        });
+
     }
     }
 

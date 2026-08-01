@@ -46,11 +46,17 @@ Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user'])
 
 
 Route::get('/mes-reservations/{user_id}', function ($user_id) {
-    return Reservation::with(['voiture', 'assurance' , 'avis'])
-        ->where('user_id', $user_id)->orderBy('id', 'desc')
-        ->get();
 
-         $reservations->each(function ($reservation) {
+    $reservations = Reservation::with([
+        'voiture',
+        'assurance',
+        'avis'
+    ])
+    ->where('user_id', $user_id)
+    ->orderBy('id', 'desc')
+    ->get();
+
+    $reservations->each(function ($reservation) {
         $reservation->has_avis = $reservation->avis !== null;
     });
 
