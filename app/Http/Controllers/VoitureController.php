@@ -9,14 +9,15 @@ use Illuminate\Http\Request;
 
 class VoitureController extends Controller
 {
+    private const STORAGE_PATH = 'app/public/';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $voitures=Voiture::with('assurances')->get();
+        $voitures = Voiture::with('assurances')->get();
         return view('admin.voitures.index', compact('voitures'));
-        //
+
     }
 
     /**
@@ -24,13 +25,12 @@ class VoitureController extends Controller
      */
     public function create()
     {
-        //
         $assurances = Assurance::all();
 
         return view('admin.voitures.create', compact('assurances'));
     }
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -38,11 +38,10 @@ class VoitureController extends Controller
     public function store(Request $request)
 
     {
-        // dd($voiture->image, $voiture->getTable());
 
 
         $request->validate([
-            
+
             'model'=>'required|string',
             'marque'=>'required|string',
             'prix_par_jour'=>'required|numeric',
@@ -55,15 +54,16 @@ class VoitureController extends Controller
 
         ]);
 
-        $imagePath= null;
+       
 
-        if ($request->hasfile('image')){
-            $imagePath=$request->file('image')->store('voitures','public');
-            // dd($imagePath);
-        }
+$imagePath = null;
 
-        $voiture=Voiture::create([
-            
+if ($request->hasFile('image')) {
+    $imagePath = $request->file('image')->store('voitures', 'public');
+}
+
+        $voiture = Voiture::create([
+
             'model'=>$request->model,
             'marque'=>$request->marque,
             'prix_par_jour'=>$request->prix_par_jour,
@@ -81,16 +81,16 @@ class VoitureController extends Controller
         return redirect()->route('voitures.index');
 
 
-        
-        
+
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Voiture $voiture)
+    public function show()
     {
-        //
+
     }
 
     /**
@@ -98,10 +98,8 @@ class VoitureController extends Controller
      */
     public function edit(Voiture $voiture)
     {
-        $assurances=Assurance::all();
-
+        $assurances = Assurance::all();
         return view('admin.voitures.edit' , compact('voiture', 'assurances'));
-        //
     }
 
     /**
@@ -120,14 +118,20 @@ class VoitureController extends Controller
             'assurances.*'=>'exists:assurances,id',
 
 
-        ]); 
-        $imagePath=$voiture->image;
-        if($request->hasfile('iamge')){
-            if($voiture->image && file_exists(storage_path('app/public/'.$voiture->image))){
-                unlink(storage_path('app/public/'.$voiture->image));
-            }
-        }
-        $imagePath=$request->file('image')->store('voitures','public');
+        ]);
+       $imagePath = $voiture->image;
+
+if ($request->hasFile('image')) {
+
+    if (
+        $voiture->image &&
+        file_exists(storage_path(self::STORAGE_PATH . $voiture->image))
+    ) {
+        unlink(storage_path(self::STORAGE_PATH . $voiture->image));
+    }
+
+    $imagePath = $request->file('image')->store('voitures', 'public');
+}
 
         $voiture->update([
             'model'=>$request->model,
@@ -147,14 +151,13 @@ class VoitureController extends Controller
      */
     public function destroy(Voiture $voiture)
     {
-        if($voiture->image && file_exists(storage_path('app/public/'.$voiture->image))){
-            unlink(storage_path('app/public/'.$voiture->image));
+        if($voiture->image && file_exists(storage_path(self::STORAGE_PATH .$voiture->image))){
+            unlink(storage_path(self::STORAGE_PATH .$voiture->image));
         }
-        //
         $voiture->delete();
 
          return redirect()->route('voitures.index')->with('succes' ,'voiture supprimer !');
     }
 
-    
+
 }

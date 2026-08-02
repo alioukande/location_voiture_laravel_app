@@ -18,8 +18,7 @@ class AssuranceController extends Controller
 
 public function create()
 {
-    // $assurances=Assurance::all();
-
+    
 return view('admin.assurances.create');
 
 }
@@ -35,11 +34,6 @@ return view('admin.assurances.create');
             'prix_base'=>'required|numeric',
         ]);
 
-        Assurance::create([
-            'type'=>$request->type,
-            'description'=>$request->description,
-            'prix_base'=>$request->prix_base,
-        ]);
         Assurance::create($request->only('type','description','prix_base'));
 
 
@@ -50,7 +44,7 @@ return view('admin.assurances.create');
     /**
      * Display the specified resource.
      */
-    public function show(Assurance $assurance)
+    public function show()
     {
         //
     }

@@ -19,22 +19,21 @@ class ReservationController extends Controller
     /**
      * Affiche la liste des réservations côté admin
      */
-    public function index( request $request)
+    public function index( Request $request)
     {
-        $query = Reservation::with(['user', 'voiture', 'assurance', ]);
-
+        $query = Reservation::with(['user', 'voiture', 'assurance']);
 
 if ($request->filled('statut')) {
     $query->where('statut', $request->statut);
 }
 
 $reservations = $query->latest()->get();
- 
+
         return view('admin.reservations.index', compact('reservations'));
     }
 
     /**
-     * 
+     *
      * Formulaire pour créer une nouvelle réservation
      */
     public function create()
@@ -43,9 +42,9 @@ $reservations = $query->latest()->get();
         $users = User::all();
         $assurances = Assurance::all();
         return view('admin.reservations.create', compact('users', 'voitures', 'assurances'));
-        
-        
-       
+
+
+
 
     }
 
@@ -56,8 +55,7 @@ $reservations = $query->latest()->get();
 
  public function store(Request $request)
 {
-    // dd($jour, $prixVoiture, $prixAssurance, $total);
-    
+
     $request->validate([
         'user_id' => 'required|exists:users,id',
         'voiture_id' => 'required|exists:voitures,id',
@@ -74,19 +72,16 @@ if ($voiture->statut != 'disponible') {
 }
     $assurance = $request->assurance_id ? Assurance::find($request->assurance_id) : null;
 
-    // Conversion DATETIME
     $start_time = $request->date_debut . ' 00:00:00';
     $end_time = $request->date_fin . ' 23:59:59';
 
-    // Calcul jours
-    // dd($jour, $total);
+
     $jour = Carbon::parse($request->date_debut)
         ->diffInDays(Carbon::parse($request->date_fin)) ;
 
         if ($jour <= 0) {
-                $jour = 1;
-        }
-    // Calcul prix
+    $jour = 1;
+}
     $prixVoiture = $jour * $voiture->prix_par_jour;
     $prixAssurance = $assurance ? $assurance->prix_base : 0;
     $total = $prixVoiture + $prixAssurance;
@@ -98,7 +93,7 @@ if ($voiture->statut != 'disponible') {
         'start_time' => $start_time,
         'end_time' => $end_time,
         'statut' => 'en attente',
-        'total_price' => $total, // ✅ CORRECT
+        'total_price' => $total,
     ]);
 
     return redirect()->route('admin.reservations.index')
@@ -152,13 +147,11 @@ if ($voiture->statut != 'disponible') {
      */
     public function confirmer(Reservation $reservation)
     {
-        // dd('confirmer fonctionne ');
         $reservation->update(['statut' => 'confirmee']);
-            // dd($reservation->user->email);
-         $reservation->voiture->update([ 
+         $reservation->voiture->update([
             'statut' => 'reservee' ,
              'disponible' => false,
-            ]);   
+            ]);
 
          Mail::to($reservation->user->email)
         ->send(new ReservationConfirmee($reservation));
@@ -175,7 +168,7 @@ if ($voiture->statut != 'disponible') {
         Mail::to($reservation->user->email)
             ->send(new ReservationAnnulee($reservation));
 
-        $reservation->voiture->update([ 
+        $reservation->voiture->update([
             'statut' => 'disponible' ,
              'disponible' => true,
             ]);

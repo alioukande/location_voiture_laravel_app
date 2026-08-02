@@ -17,31 +17,26 @@ class AvisController extends Controller
         'commentaire' => 'nullable|string|max:500',
     ]);
 
-    // Vérifier que la réservation existe
     $reservation = Reservation::findOrFail($request->reservation_id);
 
-    // Vérifier que la réservation appartient au client connecté
     if ($reservation->user_id != auth()->id()) {
         return response()->json([
             'message' => 'Vous ne pouvez pas noter cette réservation.'
         ], 403);
     }
 
-    // Vérifier que la réservation est terminée
     if ($reservation->statut != 'terminee') {
         return response()->json([
             'message' => 'Vous ne pouvez noter qu\'une réservation terminée.'
         ], 400);
     }
 
-    // Vérifier qu'il n'existe pas déjà un avis
     if ($reservation->avis) {
         return response()->json([
             'message' => 'Vous avez déjà donné un avis.'
         ], 400);
     }
 
-    // Création de l'avis
     $avis = Avis::create([
         'reservation_id' => $reservation->id,
         'user_id' => auth()->id(),
@@ -68,5 +63,5 @@ class AvisController extends Controller
 
     return response()->json($avis);
 }
-    //
+   
 }

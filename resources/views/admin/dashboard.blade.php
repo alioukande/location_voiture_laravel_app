@@ -14,7 +14,7 @@
         <div class="card border-0 shadow h-100 text-white" style="background:#0dcaf0;">
             <div class="card-body text-center py-4">
                 <h6>Total voitures</h6>
-                <h1>{{ $totalvoitures }}</h1>
+                <h1>{{ $totalVoitures }}</h1>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
         <div class="card border-0 shadow h-100 text-white" style="background:#0d6efd;">
             <div class="card-body text-center py-4">
                 <h6>Voitures disponibles</h6>
-                <h1>{{ $voituresdisponibles }}</h1>
+                <h1>{{ $voituresDisponibles }}</h1>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
         <div class="card border-0 shadow h-100 text-dark" style="background:#ffc107;">
             <div class="card-body text-center py-4">
                 <h6>Réservations</h6>
-                <h1>{{ $totalreservations }}</h1>
+                <h1>{{ $totalReservations }}</h1>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
         <div class="card border-0 shadow h-100 text-white" style="background:#212529;">
             <div class="card-body text-center py-4">
                 <h6>Utilisateurs</h6>
-                <h1>{{ $totalusers }}</h1>
+                <h1>{{ $totalUsers }}</h1>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
         <div class="card border-0 shadow h-100 text-white" style="background:#6f42c1;">
             <div class="card-body text-center py-4">
                 <h6>Assurances</h6>
-                <h1>{{ $totalassurances }}</h1>
+                <h1>{{ $totalAssurances }}</h1>
             </div>
         </div>
     </div>

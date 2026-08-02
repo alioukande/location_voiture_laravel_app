@@ -17,22 +17,21 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // dd(auth()->user()->role);
 
         if(auth()->user()->role !== 'admin'){
          abort(403);
          }
 
-        $totalvoitures=Voiture::count();
-        $totalreservations=Reservation::count();
-        $totalassurances=Assurance::count();
-        $totalusers=User::count();
+        $totalVoitures = Voiture::count();
+        $totalReservations = Reservation::count();
+        $totalAssurances = Assurance::count();
+        $totalUsers = User::count();
         $totalAvis = Avis::count();
         $noteMoyenne = round(Avis::avg('note'), 1);
 
-        $voituresdisponibles = Voiture::where('statut','disponible')->count();
-        $voituresreservees = Voiture::where('statut','reservee')->count();
-        $voitureslouees = Voiture::where('statut','louee')->count();
+        $voituresDisponibles  = Voiture::where('statut','disponible')->count();
+        $voituresReservees  = Voiture::where('statut','reservee')->count();
+        $voituresLouees  = Voiture::where('statut','louee')->count();
 
 
         $voitures = Voiture::all();
@@ -44,13 +43,12 @@ $confirmees = Reservation::where('statut', 'confirmee')->count();
 $terminees = Reservation::where('statut', 'terminee')->count();
 $annulees = Reservation::where('statut', 'annulee')->count();
 
-// Revenu total
 $revenu = Reservation::whereIn('statut', [
     'confirmee',
     'terminee'
 ])->sum('total_price');
 
-// Voiture la plus louée
+
 $voiturePlusLoue = Reservation::select('voiture_id')
     ->selectRaw('COUNT(*) as total')
     ->with('voiture')
@@ -70,15 +68,15 @@ $voiturePlusLoue = Reservation::select('voiture_id')
 
 
         return view('admin/dashboard' , compact(
-            'totalvoitures',
-            'totalreservations', 
-            'totalassurances', 
-             'totalusers',
+            'totalVoitures',
+            'totalReservations',
+            'totalAssurances',
+             'totalUsers',
              'totalAvis',
              'noteMoyenne',
-             'voituresdisponibles',
-             'voituresreservees',
-             'voitureslouees',
+             'voituresDisponibles',
+             'voituresReservees',
+             'voituresLouees',
              'voitures',
              'assurances',
               'enAttente',
@@ -93,7 +91,7 @@ $voiturePlusLoue = Reservation::select('voiture_id')
              ));
 
 
-       
+
     }
-    //
+
 }

@@ -10,11 +10,11 @@ use App\Models\Voiture;
 
 class VoitureController extends Controller
 {
-    //
-    public function index() 
+
+    public function index()
     {
 
-        return response()->json(Voiture::all());
+       return response()->json(Voiture::all());
 
 
 

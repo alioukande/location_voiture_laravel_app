@@ -12,10 +12,8 @@ use Illuminate\Support\Facades\Storage;
 class AuthController extends Controller
 {
   
-       // 🔐 REGISTER
     public function register(Request $request)
     {
-        // echo "register route";
 
         $request->validate([
             'name' => 'required',
@@ -29,7 +27,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // 🔥 token automatique
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -42,7 +39,6 @@ class AuthController extends Controller
 
     }
 
-    // 🔑 LOGIN
     public function login(Request $request)
     {
         $request->validate([
@@ -52,7 +48,6 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        // 🔥 vérification sécurisée
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => false,
@@ -60,7 +55,6 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // 🔥 génération token
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -80,10 +74,8 @@ class AuthController extends Controller
         ]);
     }
 
-    // 🚪 LOGOUT
     public function logout(Request $request)
     {
-        // 🔥 supprime tous les tokens
         $request->user()->tokens()->delete();
 
         return response()->json([

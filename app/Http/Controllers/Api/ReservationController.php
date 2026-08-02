@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ReservationConfirmee;
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
@@ -15,7 +13,7 @@ use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
-    //
+
 public function store(Request $request)
 {
     $user = auth()->user();
@@ -32,7 +30,9 @@ public function store(Request $request)
     $jours = Carbon::parse($request->start_time)
         ->diffInDays(Carbon::parse($request->end_time));
 
-    if ($jours == 0) $jours = 1;
+    if ($jours == 0) {
+    $jours = 1;
+}
 
     $total = $jours * $voiture->prix_par_jour;
 
@@ -43,12 +43,10 @@ public function store(Request $request)
         }
     }
 
-    // $user = auth()->user();
 
-    //     dd($user);
 
      $reservation = Reservation::create([
-        'user_id' => $user->id,   
+        'user_id' => $user->id,
         'voiture_id' => $request->voiture_id,
         'assurance_id' => $request->assurance_id,
         'start_time' => $request->start_time,
@@ -57,8 +55,7 @@ public function store(Request $request)
         'statut' => 'en attente',
     ]);
 
-    // Mail::to($user->email)
-    //     ->send(new ReservationConfirmee($reservation));
+
 
     return response()->json([
         'message' => 'Réservation créée',
