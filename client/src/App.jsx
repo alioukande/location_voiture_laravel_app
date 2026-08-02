@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import VoitureList from "./components/VoitureList";
 import ReservationForm from "./components/ReservationForm";
-import { useNavigate } from "react-router-dom";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -11,7 +10,6 @@ function App() {
   const [selectedCar, setSelectedCar] = useState(null);
   const [search, setSearch] = useState("");
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/voitures")

@@ -10,7 +10,7 @@ export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [password_confirmation, setPasswordConfirmation] = useState("");
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
     const register = async (e) => {
 

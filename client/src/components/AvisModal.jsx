@@ -92,32 +92,38 @@ function AvisModal({ reservation, onClose }) {
 
                             <div className="mb-3">
 
-    <label className="form-label fw-bold">
-        Votre note
-    </label>
+    <p className="form-label fw-bold mb-2">
+    Votre note
+</p>
 
     <div className="d-flex justify-content-center">
 
-        {[1, 2, 3, 4, 5].map((etoile) => (
+       {[1, 2, 3, 4, 5].map((etoile) => (
 
-            <span
-                key={etoile}
-                onClick={() => setNote(etoile)}
-                style={{
-                    fontSize: "40px",
-                    cursor: "pointer",
-                    color: etoile <= note ? "#ffc107" : "#d3d3d3",
-                    margin: "0 5px"
-                }}
-            >
-                ★
-            </span>
+    <button
+        key={etoile}
+        type="button"
+        onClick={() => setNote(etoile)}
+        className="btn p-0 border-0 bg-transparent"
+        style={{
+            fontSize: "40px",
+            cursor: "pointer",
+            color: etoile <= note ? "#ffc107" : "#d3d3d3",
+            margin: "0 5px"
+        }}
+    >
+        ★
+    </button>
 
-        ))}
+))}
 
     </div>
 
 </div>
+<p htmlFor="commentaire" className="form-label fw-bold">
+    Votre commentaire
+
+</p>
 
                             <textarea
                                 className="form-control"

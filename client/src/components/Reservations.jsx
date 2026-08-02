@@ -54,10 +54,11 @@ function Reservations() {
           {reservations.map((r) => {
 
             const jours = calculJours(r.start_time, r.end_time);
-            const prixVoiture = jours * parseFloat(r.voiture.prix_par_jour);
-            const prixAssurance = r.assurance
-              ? parseFloat(r.assurance.prix_base)
-              : 0;
+const prixVoiture =
+  jours * Number.parseFloat(r.voiture.prix_par_jour);       
+       const prixAssurance = r.assurance
+  ? Number.parseFloat(r.assurance.prix_base)
+  : 0;
 
             return (
 
@@ -143,7 +144,7 @@ function Reservations() {
                       <div className="d-flex justify-content-between fs-5">
                         <strong>Total payé</strong>
                         <strong className="text-success">
-                          {parseFloat(r.total_price).toFixed(2)} DH
+                          {Number.parseFloat(r.total_price).toFixed(2)} DH
                         </strong>
                       </div>
 

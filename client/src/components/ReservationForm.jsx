@@ -24,11 +24,14 @@ function ReservationForm({ voiture, onClose }) {
     let jours = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
     if (jours <= 0) jours = 1;
 
-    let prixVoiture = jours * parseFloat(voiture.prix_par_jour);
+    let prixVoiture = jours * Number.parseFloat(voiture.prix_par_jour);
 
-    let assurance = assurances.find(a => a.id == assuranceId);
-    let prixAssurance = assurance ? parseFloat(assurance.prix_base) : 0;
-
+let assurance = assurances.find(
+    a => a.id === Number(assuranceId)
+);
+let prixAssurance = assurance
+    ? Number.parseFloat(assurance.prix_base)
+    : 0;
     setTotal(prixVoiture + prixAssurance);
   }, [start, end, assuranceId, assurances, voiture]);
 
@@ -78,6 +81,13 @@ console.log(token);
    
    <div
     onClick={onClose}
+    role="button"
+    tabIndex={0}
+    onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            onClose();
+        }
+    }}
     style={{
       position: "fixed",
       top: 0,
@@ -126,28 +136,42 @@ console.log(token);
 
       {/* DATES */}
       <div className="mb-2">
-        <label>Date début</label>
-        <input type="date" className="form-control"
-          onChange={(e) => setStart(e.target.value)}
-        />
+        <label htmlFor="dateDebut">
+    Date début
+</label>
+        <input
+    id="dateDebut"
+    type="date"
+    className="form-control"
+    onChange={(e) => setStart(e.target.value)}
+/>
       </div>
 
       <div className="mb-2">
-        <label>Date fin</label>
-        <input type="date" className="form-control"
-          onChange={(e) => setEnd(e.target.value)}
-        />
+       <label htmlFor="dateFin">
+    Date fin
+</label>
+
+<input
+    id="dateFin"
+    type="date"
+    className="form-control"
+    onChange={(e) => setEnd(e.target.value)}
+/>
       </div>
 
       {/* ASSURANCE */}
       <div className="mb-2">
-        <label>Assurance</label>
+       <label htmlFor="assurance">
+    Assurance
+</label>
 
-        <select
-          className="form-control"
-          value={assuranceId}
-          onChange={(e) => setAssuranceId(e.target.value)}
-        >
+<select
+    id="assurance"
+    className="form-control"
+    value={assuranceId}
+    onChange={(e) => setAssuranceId(e.target.value)}
+>
           <option value="">Aucune</option>
 
           {assurances.map((a) => (
