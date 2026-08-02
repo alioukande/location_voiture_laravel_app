@@ -80,25 +80,31 @@ console.log(token);
   return (
    
    <div
-    onClick={(e) => {
+     onClick={(e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
-    }}
-    style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100vh",
-      backgroundColor: "rgba(0,0,0,0.6)",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      zIndex: 999,
-    }}
-  >
-
+  }}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      onClose();
+    }
+  }}
+  role="dialog"
+  tabIndex={0}
+  style={{
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "rgba(0,0,0,0.6)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999,
+  }}
+>
     {/* STOP PROPAGATION */}
     <div
       className="card shadow p-3"

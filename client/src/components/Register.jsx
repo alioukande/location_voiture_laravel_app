@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import "../css/login.css";
 
 export default function Register() {
@@ -48,7 +48,7 @@ export default function Register() {
 
             alert("Compte créé avec succès 🎉");
 
-            navigate("/login");
+           
 
         }else{
 
