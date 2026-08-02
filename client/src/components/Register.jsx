@@ -5,7 +5,6 @@ import "../css/login.css";
 
 export default function Register() {
 
-    const navigate = useNavigate();
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -16,7 +15,7 @@ export default function Register() {
 
         e.preventDefault();
 
-        if(password !== password_confirmation){
+        if(password !== passwordConfirmation){
 
             alert("Les mots de passe ne correspondent pas");
 
@@ -37,7 +36,7 @@ export default function Register() {
                 name,
                 email,
                 password,
-                password_confirmation
+                passwordConfirmation
 
             })
 
@@ -128,7 +127,7 @@ required
 type="password"
 className="form-control"
 placeholder="Confirmer le mot de passe"
-value={password_confirmation}
+value={passwordConfirmation}
 onChange={(e)=>setPasswordConfirmation(e.target.value)}
 required
 />

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "../css/voiture.css";
 
 function VoitureList({ voitures, onReserve }) {
-  const navigate = useNavigate();
 
   return (
 

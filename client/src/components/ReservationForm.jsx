@@ -80,13 +80,10 @@ console.log(token);
   return (
    
    <div
-    onClick={onClose}
-    role="button"
-    tabIndex={0}
-    onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-            onClose();
-        }
+    onClick={(e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
     }}
     style={{
       position: "fixed",
@@ -104,7 +101,6 @@ console.log(token);
 
     {/* STOP PROPAGATION */}
     <div
-      onClick={(e) => e.stopPropagation()}
       className="card shadow p-3"
       style={{
         width: "380px",
