@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
 function ReservationForm({ voiture, onClose }) {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [assurances, setAssurances] = useState([]);
   const [assuranceId, setAssuranceId] = useState("");
   const [total, setTotal] = useState(0);
+  
 
   // 🔥 charger assurances depuis Laravel
   useEffect(() => {
@@ -49,7 +51,7 @@ let prixAssurance = assurance
 console.log(token);
 
   fetch("http://127.0.0.1:8000/api/reservations", {
-    method: "Post",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -65,115 +67,75 @@ console.log(token);
       total_price: total,
     }),
   })
-    .then(res => res.json())
-    .then(data => {
-      console.log("✅ RESPONSE:", data);
-      alert("Réservation créée !");
-      onClose(); // ferme le modal
-    })
-    .catch(err => {
-      console.error("❌ ERREUR:", err);
-      alert("Erreur serveur");
-    });
+   .then(async (res) => {
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Erreur lors de la réservation");
+  }
+
+  return data;
+})
+.then((data) => {
+  console.log("✅ RESPONSE:", data);
+  alert("Réservation créée avec succès !");
+  onClose();
+})
+.catch((err) => {
+  console.error(err);
+  alert(err.message);
+});
 };
 
   return (
    
-   <div
-     onClick={(e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  }}
-  onKeyDown={(e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      onClose();
-    }
-  }}
-  role="dialog"
-  tabIndex={0}
-  style={{
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100vh",
-    backgroundColor: "rgba(0,0,0,0.6)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 999,
-  }}
->
-    {/* STOP PROPAGATION */}
-    <div
-      className="card shadow p-3"
-      style={{
-        width: "380px",
-        maxHeight: "90vh",
-        overflowY: "auto",
-        borderRadius: "12px"
-      }}
-    >
-
-      <h5 className="mb-2">
+    <Modal
+    show={true}
+    onHide={onClose}
+    centered
+    backdrop="static"
+  >
+    <Modal.Header closeButton>
+      <Modal.Title>
         {voiture.marque} {voiture.model}
-      </h5>
+      </Modal.Title>
+    </Modal.Header>
 
-      {/* IMAGE */}
+    <Modal.Body>
+
       <img
         src={`http://localhost:8000/storage/${voiture.image}`}
-        alt=""
-        style={{
-          width: "100%",
-          height: "160px",
-          objectFit: "cover",
-          borderRadius: "8px"
-        }}
+        alt={voiture.marque}
+        className="img-fluid rounded mb-3"
       />
 
-      <p className="mt-2 fw-bold">
+      <p className="fw-bold">
         💰 {voiture.prix_par_jour} DH / jour
       </p>
 
-      {/* DATES */}
-      <div className="mb-2">
-        <label htmlFor="dateDebut">
-    Date début
-</label>
-        <input
-    id="dateDebut"
-    type="date"
-    className="form-control"
-    onChange={(e) => setStart(e.target.value)}
-/>
-      </div>
+      <Form.Group className="mb-3">
+        <Form.Label>Date début</Form.Label>
+        <Form.Control
+          type="date"
+          onChange={(e) => setStart(e.target.value)}
+        />
+      </Form.Group>
 
-      <div className="mb-2">
-       <label htmlFor="dateFin">
-    Date fin
-</label>
+      <Form.Group className="mb-3">
+        <Form.Label>Date fin</Form.Label>
+        <Form.Control
+          type="date"
+          onChange={(e) => setEnd(e.target.value)}
+        />
+      </Form.Group>
 
-<input
-    id="dateFin"
-    type="date"
-    className="form-control"
-    onChange={(e) => setEnd(e.target.value)}
-/>
-      </div>
+      <Form.Group className="mb-3">
+        <Form.Label>Assurance</Form.Label>
 
-      {/* ASSURANCE */}
-      <div className="mb-2">
-       <label htmlFor="assurance">
-    Assurance
-</label>
-
-<select
-    id="assurance"
-    className="form-control"
-    value={assuranceId}
-    onChange={(e) => setAssuranceId(e.target.value)}
->
+        <Form.Select
+          value={assuranceId}
+          onChange={(e) => setAssuranceId(e.target.value)}
+        >
           <option value="">Aucune</option>
 
           {assurances.map((a) => (
@@ -181,36 +143,36 @@ console.log(token);
               {a.type} (+{a.prix_base} DH)
             </option>
           ))}
-        </select>
-      </div>
+        </Form.Select>
 
-      {/* TOTAL */}
-      <h6 className="mt-2">
-        Total : {total} DH
-      </h6>
+      </Form.Group>
 
-      {/* BUTTONS */}
-  <button
-  className="btn btn-success w-100 mt-2"
-  onClick={handleSubmit}
->
-  Confirmer
-</button>
+      <h5 className="text-success">
+        Total : {total.toFixed(2)} DH
+      </h5>
 
-      <button
-        className="btn btn-outline-secondary w-100 mt-2"
-       
-  onClick={() => {
-    
-    window.location.reload();
-  }}
->
+    </Modal.Body>
+
+    <Modal.Footer>
+
+      <Button
+        variant="secondary"
+        onClick={onClose}
+      >
         Fermer
-      </button>
+      </Button>
 
-    </div>
-  </div>
-  );
+      <Button
+        variant="success"
+        onClick={handleSubmit}
+      >
+        Confirmer
+      </Button>
+
+    </Modal.Footer>
+
+  </Modal>
+);
 }
 
 export default ReservationForm;
