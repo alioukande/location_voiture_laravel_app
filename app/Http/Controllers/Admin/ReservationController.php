@@ -16,9 +16,7 @@ use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
-    /**
-     * Affiche la liste des réservations côté admin
-     */
+    
     public function index( Request $request)
     {
         $query = Reservation::with(['user', 'voiture', 'assurance']);
@@ -32,10 +30,7 @@ $reservations = $query->latest()->get();
         return view('admin.reservations.index', compact('reservations'));
     }
 
-    /**
-     *
-     * Formulaire pour créer une nouvelle réservation
-     */
+   
     public function create()
     {
         $voitures = Voiture::all();
@@ -48,9 +43,6 @@ $reservations = $query->latest()->get();
 
     }
 
-    /**
-     * Stocke une nouvelle réservation
-     */
 
 
  public function store(Request $request)
@@ -99,9 +91,7 @@ if ($voiture->statut != 'disponible') {
     return redirect()->route('admin.reservations.index')
                      ->with('success', 'Réservation créée avec succès');
 }
-    /**
-     * Formulaire pour éditer une réservation
-     */
+    
     public function edit($id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -112,9 +102,7 @@ if ($voiture->statut != 'disponible') {
         return view('admin.reservations.edit', compact('reservation', 'voitures', 'users', 'assurances'));
     }
 
-    /**
-     * Met à jour une réservation
-     */
+   
     public function update(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -131,9 +119,7 @@ if ($voiture->statut != 'disponible') {
         return redirect()->route('admin.reservations.index')->with('success', 'Réservation mise à jour');
     }
 
-    /**
-     * Supprime une réservation
-     */
+   
     public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -142,9 +128,7 @@ if ($voiture->statut != 'disponible') {
         return redirect()->route('admin.reservations.index')->with('success', 'Réservation supprimée');
     }
 
-    /**
-     * Confirme une réservation
-     */
+    
     public function confirmer(Reservation $reservation)
     {
         $reservation->update(['statut' => 'confirmee']);
@@ -159,9 +143,7 @@ if ($voiture->statut != 'disponible') {
         return back()->with('success', 'Réservation confirmee et mail envoyer');
     }
 
-    /**
-     * Annule une réservation
-     */
+    
     public function annuler(Reservation $reservation)
     {
         $reservation->update(['statut' => 'annulee']);
@@ -178,9 +160,7 @@ if ($voiture->statut != 'disponible') {
         return back()->with('success', 'Réservation annulee');
     }
 
-    /**
-     * Termine une réservation
-     */
+   
     public function terminer(Reservation $reservation)
     {
         $reservation->update(['statut' => 'terminee']);

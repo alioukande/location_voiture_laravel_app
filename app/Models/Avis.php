@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Reservation;
 use App\Models\User;
-// use App\Models\voiture;
 
 class Avis extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'reservation_id',
         'user_id',
         'note',
@@ -30,9 +29,4 @@ public function user()
     return $this->belongsTo(User::class);
 }
 
-// public function voiture()
-// {
-//     return $this->belongsTo(Voiture::class);
-// }
-    //
 }

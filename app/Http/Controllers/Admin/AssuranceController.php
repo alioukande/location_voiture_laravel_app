@@ -23,9 +23,6 @@ return view('admin.assurances.create');
 
 }
  
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -38,31 +35,23 @@ return view('admin.assurances.create');
 
 
         return redirect()->route('assurances.index')->with('succes', 'assurance ajoutee');
-        //
+       
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show()
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Assurance $assurance)
     {
-            $assurances=Assurance::all();
+            $assurances = Assurance::all();
 
         return view('admin.assurances.edit', compact('assurance', 'assurances'));
-        //
+       
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+   
     public function update(Request $request, Assurance $assurance)
     {
         $request->validate([
@@ -78,28 +67,24 @@ return view('admin.assurances.create');
             'prix_base'=>$request->prix_base,
         ]);
 
-                // Assurance::update($request->only('type','description','prix_base'));
 
 
         return redirect()->route('assurances.index')->with('succes', 'assurance modifiee');
 
 
-        //
+       
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Assurance $assurance)
     {
-        // dd($assurance->id);
         $assurance->delete();
         return redirect()->route('assurances.index')->with('succes', 'assurance supprimer');
-        //
+      
     }
 
 
 
 
-    //
+ 
 }

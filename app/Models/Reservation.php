@@ -18,14 +18,12 @@ class Reservation extends Model
         'statut',
     ];
 
-     // Relation avec la voiture
     public function voiture()
 {
     return $this->belongsTo(Voiture::class);
 }
 
 
-    // Relation avec les assurances (many-to-many)
     public function assurance()
 {
     return $this->belongsTo(Assurance::class);
@@ -44,5 +42,5 @@ public function avis()
 
 
 
-    //
+
 }
