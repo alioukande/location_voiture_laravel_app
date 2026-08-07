@@ -30,9 +30,6 @@ Route::get('/reservations', function () {
     return Reservation::with(['voiture', 'assurance', 'user'])->get();
 });
 
-// Route::get('/reservations', function (){
-//     return Reservation::all();
-// });
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -98,7 +95,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/avis', [AvisController::class, 'store']);
 
 
-    //   Route::get('/voitures/{id}/avis', [AvisController::class, 'index']);
 
 
 });
@@ -112,13 +108,3 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-// Route::post('/avis', [AvisController::class, 'store']);
-
-
-// Route::get('/test', function () {
-//     return response()->json(['ok' => true]);
-// });
-
-// Route::get('/test', function () {
-//     return response()->json(['ok' => true]);
-// });

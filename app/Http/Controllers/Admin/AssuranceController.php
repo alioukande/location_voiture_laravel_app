@@ -18,11 +18,12 @@ class AssuranceController extends Controller
 
 public function create()
 {
-    
+
 return view('admin.assurances.create');
 
 }
  
+   
     public function store(Request $request)
     {
         $request->validate([
@@ -31,27 +32,29 @@ return view('admin.assurances.create');
             'prix_base'=>'required|numeric',
         ]);
 
-        Assurance::create($request->only('type','description','prix_base'));
+        Assurance::create([
+            'type'=>$request->type,
+            'description'=>$request->description,
+            'prix_base'=>$request->prix_base,
+        ]);
 
 
         return redirect()->route('assurances.index')->with('succes', 'assurance ajoutee');
-       
+      
     }
 
-    public function show()
-    {
-        
-    }
+   
 
+    
     public function edit(Assurance $assurance)
     {
-            $assurances = Assurance::all();
+            $assurances=Assurance::all();
 
         return view('admin.assurances.edit', compact('assurance', 'assurances'));
        
     }
 
-   
+    
     public function update(Request $request, Assurance $assurance)
     {
         $request->validate([
@@ -80,11 +83,11 @@ return view('admin.assurances.create');
     {
         $assurance->delete();
         return redirect()->route('assurances.index')->with('succes', 'assurance supprimer');
-      
+       
     }
 
 
 
 
- 
+   
 }

@@ -10,7 +10,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Chemin de redirection après login/register
      */
-    public const home = '/voitures';
+    public const HOME = '/voitures';
 
     /**
      * Définir les bindings et autres configurations de routes
@@ -18,11 +18,11 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->routes(function () {
-            // Routes web
+          
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
-            // Routes API
+          
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
