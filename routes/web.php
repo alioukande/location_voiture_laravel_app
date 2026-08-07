@@ -1,5 +1,4 @@
 <?php
- // ← AJOUTE CETTE LIGNE
  use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
@@ -11,6 +10,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AssuranceController;
 use App\Http\Controllers\Admin\AvisController;
 
+const PROFILE_ROUTE = '/profile';
+
 
 Route::get('/', function () {
     return view('home');
@@ -21,9 +22,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/PROFILE_ROUTE', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/PROFILE_ROUTE', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/PROFILE_ROUTE', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
@@ -41,7 +42,6 @@ Route::middleware(['auth'])->group(function() {
      Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('admin.dashboard');
-    // route pour les avis
     Route::get('/admin/avis', [AvisController::class, 'index'])
     ->name('admin.avis.index');
 

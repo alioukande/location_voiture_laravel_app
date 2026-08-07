@@ -9,7 +9,7 @@ use App\Models\Reservation;
 
 class AvisController extends Controller
 {
-    public function store(Request $request)
+   public function store(Request $request)
 {
     $request->validate([
         'reservation_id' => 'required|exists:reservations,id',
@@ -19,22 +19,22 @@ class AvisController extends Controller
 
     $reservation = Reservation::findOrFail($request->reservation_id);
 
+    $errorMessage = null;
+    $errorStatus = 400;
+
     if ($reservation->user_id != auth()->id()) {
-        return response()->json([
-            'message' => 'Vous ne pouvez pas noter cette réservation.'
-        ], 403);
+        $errorMessage = 'Vous ne pouvez pas noter cette réservation.';
+        $errorStatus = 403;
+    } elseif ($reservation->statut != 'terminee') {
+        $errorMessage = 'Vous ne pouvez noter qu\'une réservation terminée.';
+    } elseif ($reservation->avis) {
+        $errorMessage = 'Vous avez déjà donné un avis.';
     }
 
-    if ($reservation->statut != 'terminee') {
+    if ($errorMessage !== null) {
         return response()->json([
-            'message' => 'Vous ne pouvez noter qu\'une réservation terminée.'
-        ], 400);
-    }
-
-    if ($reservation->avis) {
-        return response()->json([
-            'message' => 'Vous avez déjà donné un avis.'
-        ], 400);
+            'message' => $errorMessage
+        ], $errorStatus);
     }
 
     $avis = Avis::create([
@@ -65,3 +65,4 @@ class AvisController extends Controller
 }
    
 }
+
