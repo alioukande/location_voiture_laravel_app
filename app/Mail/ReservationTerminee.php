@@ -57,3 +57,4 @@ class ReservationTerminee extends Mailable
         return [];
     }
 }
+

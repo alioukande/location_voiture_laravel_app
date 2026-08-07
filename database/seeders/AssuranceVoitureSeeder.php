@@ -15,6 +15,5 @@ class AssuranceVoitureSeeder extends Seeder
     {
          $voiture = Voiture::find(1);
         $voiture->assurances()->sync([1, 2]);
-        //
     }
 }

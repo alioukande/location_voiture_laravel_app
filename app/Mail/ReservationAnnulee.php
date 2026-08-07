@@ -55,3 +55,4 @@ class ReservationAnnulee extends Mailable
         return [];
     }
 }
+

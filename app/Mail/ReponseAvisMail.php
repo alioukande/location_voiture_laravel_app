@@ -54,3 +54,4 @@ class ReponseAvisMail extends Mailable
         return [];
     }
 }
+
