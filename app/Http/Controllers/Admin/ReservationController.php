@@ -16,7 +16,7 @@ use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
-    
+
     public function index( Request $request)
     {
         $query = Reservation::with(['user', 'voiture', 'assurance']);
@@ -30,7 +30,7 @@ $reservations = $query->latest()->get();
         return view('admin.reservations.index', compact('reservations'));
     }
 
-   
+
     public function create()
     {
         $voitures = Voiture::all();
@@ -91,7 +91,7 @@ if ($voiture->statut != 'disponible') {
     return redirect()->route('admin.reservations.index')
                      ->with('success', 'Réservation créée avec succès');
 }
-    
+
     public function edit($id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -102,7 +102,7 @@ if ($voiture->statut != 'disponible') {
         return view('admin.reservations.edit', compact('reservation', 'voitures', 'users', 'assurances'));
     }
 
-   
+
     public function update(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -119,7 +119,7 @@ if ($voiture->statut != 'disponible') {
         return redirect()->route('admin.reservations.index')->with('success', 'Réservation mise à jour');
     }
 
-   
+
     public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -128,7 +128,7 @@ if ($voiture->statut != 'disponible') {
         return redirect()->route('admin.reservations.index')->with('success', 'Réservation supprimée');
     }
 
-    
+
     public function confirmer(Reservation $reservation)
     {
         $reservation->update(['statut' => 'confirmee']);
@@ -143,7 +143,7 @@ if ($voiture->statut != 'disponible') {
         return back()->with('success', 'Réservation confirmee et mail envoyer');
     }
 
-    
+
     public function annuler(Reservation $reservation)
     {
         $reservation->update(['statut' => 'annulee']);
@@ -160,7 +160,7 @@ if ($voiture->statut != 'disponible') {
         return back()->with('success', 'Réservation annulee');
     }
 
-   
+
     public function terminer(Reservation $reservation)
     {
         $reservation->update(['statut' => 'terminee']);
@@ -172,4 +172,6 @@ if ($voiture->statut != 'disponible') {
 
         return back()->with('success', 'Réservation terminee');
     }
+
+
 }

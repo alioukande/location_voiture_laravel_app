@@ -78,6 +78,8 @@ public function annuler($id)
         'message' => 'Réservation annulée'
     ]);
 }
+
 }
+
 
 
