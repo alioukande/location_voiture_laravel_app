@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AssuranceController;
 use App\Http\Controllers\Admin\AvisController;
 
-const PROFILE_ROUTE = '/profile';
+
 
 
 Route::get('/', function () {
@@ -22,9 +22,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get(PROFILE_ROUTE, [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch(PROFILE_ROUTE, [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete(PROFILE_ROUTE, [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
