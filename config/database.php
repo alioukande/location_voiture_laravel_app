@@ -4,6 +4,10 @@ use Illuminate\Support\Str;
 
 const LOCALHOST = '127.0.0.1';
 
+$mysqlSslCaAttribute = PHP_VERSION_ID >= 80500
+    ? \Pdo\Mysql::ATTR_SSL_CA
+    : \PDO::MYSQL_ATTR_SSL_CA;
+
 return [
 
     /*
@@ -61,8 +65,8 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                (PHP_VERSION_ID >= 80500 ? \Pdo\Mysql::ATTR_SSL_CA : \PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+    $mysqlSslCaAttribute => env('MYSQL_ATTR_SSL_CA'),
+]) : [],
         ],
 
         'mariadb' => [
@@ -81,8 +85,8 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                (PHP_VERSION_ID >= 80500 ? \Pdo\Mysql::ATTR_SSL_CA : \PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+    $mysqlSslCaAttribute => env('MYSQL_ATTR_SSL_CA'),
+]) : [],
         ],
 
         'pgsql' => [
