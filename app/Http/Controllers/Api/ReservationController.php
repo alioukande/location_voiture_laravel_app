@@ -55,6 +55,7 @@ public function store(Request $request)
         'statut' => 'en attente',
     ]);
 
+Mail::to(env('ADMIN_EMAIL'))->send(new NouvelleReservationAdmin($reservation));
 
 
     return response()->json([
