@@ -22,7 +22,7 @@ export default function Register() {
             return;
         }
 
-        const response = await fetch("http://127.0.0.1:8000/api/register",{
+        const response = await fetch("http://192.168.11.150/api/register",{
 
             method:"POST",
 
@@ -141,19 +141,13 @@ Créer un compte
 
 </button>
 
-<div className="text-center mt-3">
-
-Déjà un compte ?
-
 <Link
-to="/login"
-className="text-decoration-none ms-2">
+  to="/"
+  className="text-decoration-none ms-2">
 
-Se connecter
+  Se connecter
 
 </Link>
-
-</div>
 
 </form>
 

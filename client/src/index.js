@@ -7,7 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import App from "./App";
  import Reservations from "./components/Reservations";
 // import Login from "./components/Login";
-// import Register from "./components/Register";
+ import Register from "./components/Register";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -17,6 +17,8 @@ root.render(
 
       <Route path="/" element={<App />} />
       <Route path="/reservations" element={<Reservations />} />
+      <Route path="/register" element={<Register />} />
+
      
 
     </Routes>
